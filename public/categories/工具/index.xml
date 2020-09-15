@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具 on Chao&#39;s Room</title>
+    <link>http://chrom.cn/categories/%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 工具 on Chao&#39;s Room</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 15 Sep 2020 09:47:55 +0800</lastBuildDate>
+    
+	<atom:link href="http://chrom.cn/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Google 常用搜索技巧</title>
+      <link>http://chrom.cn/posts/google-%E5%B8%B8%E7%94%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Tue, 15 Sep 2020 09:47:55 +0800</pubDate>
+      
+      <guid>http://chrom.cn/posts/google-%E5%B8%B8%E7%94%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7/</guid>
+      <description>&lt;p&gt;善用工具，好的工具可以大大的提高工作效率。今天在这里整理了一些 Google 常用的搜索技巧。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

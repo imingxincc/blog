@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://chrom.cn/categories/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/posts/google-%E5%B8%B8%E7%94%A8%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/posts/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/tags/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/categories/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/tags/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E/</loc>
+    <lastmod>2020-09-15T09:47:55+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/about/</loc>
+    <lastmod>2020-09-15T09:12:35+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://chrom.cn/archives/</loc>
+  </url>
+  
+</urlset>
