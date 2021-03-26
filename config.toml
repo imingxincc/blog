@@ -2,6 +2,7 @@ baseURL = "http://chrom.cn/"
 languageCode = "zh-CN"
 title = "Chao's Room"
 theme = "smol"
+staticDir = ["static"]
 
 # Parameters
 [params]
