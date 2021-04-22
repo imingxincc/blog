@@ -38,6 +38,97 @@ curl  -I --proxy 192.168.33.10:8089 http://example.com
 "CONNECT www.baidu.com:443 HTTP/1.1" 400
 ```
 
+## 正向代理（HTTPS）
+
+上面我们说道由于 Nginx 不支持 CONNECT，所以没有办法代理 https 的网站。下面我们就来通过 Nginx 的第三方扩展（ [ngx_http_proxy_connect_module](https://github.com/chobits/ngx_http_proxy_connect_module) ）来实现 https 网站的代理。
+
+```bash
+# 查看 Nginx 已安装的模块
+[vagrant@localhost /]$ nginx -V
+nginx version: nginx/1.19.10
+built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC) 
+built with OpenSSL 1.1.1b  26 Feb 2019
+TLS SNI support enabled
+configure arguments: --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_gzip_static_module --with-http_sub_module --with-stream --with-stream_ssl_module --with-openssl=/usr/local/src/openssl-1.1.1b --with-openssl-opt=enable-weak-ssl-ciphers
+
+# 进入 /usr/local/src 目录下
+[vagrant@localhost /]$ cd /usr/local/src
+
+# 下载第三方扩展包（当前最新稳定版是 v0.0.2）
+[vagrant@localhost src]$ wget https://github.com/chobits/ngx_http_proxy_connect_module/archive/refs/tags/v0.0.2.tar.gz
+
+# 解压缩
+[vagrant@localhost src]$ tar -zxvf v0.0.2.tar.gz
+
+# 进入 Nginx 源码目录
+[vagrant@localhost src]$ cd /usr/local/src/nginx-1.19.10
+
+# 升级扩展包，注意 patch 与 Nginx 的版本要对应
+[vagrant@localhost nginx-1.19.10]$ patch -p1 < /usr/local/src/ngx_http_proxy_connect_module-0.0.2/patch/proxy_connect_rewrite_1018.patch
+
+# 重新从源码编译安装 Nginx，注意使用 --add-module 来添加第三方扩展
+[vagrant@localhost nginx-1.19.10]$ ./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_gzip_static_module --with-http_sub_module --with-stream --with-stream_ssl_module --with-openssl=/usr/local/src/openssl-1.1.1b --with-openssl-opt=enable-weak-ssl-ciphers --add-module=/usr/local/src/ngx_http_proxy_connect_module-0.0.2/
+
+# 安装
+[vagrant@localhost nginx-1.19.10]$ make && make install
+
+# 再次查看 Nginx 已安装模块信息，我们可以看到最后一行，模块已经安装成功了。
+[vagrant@localhost nginx-1.19.10]$ Nginx -V
+nginx version: nginx/1.19.10
+built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC) 
+built with OpenSSL 1.1.1b  26 Feb 2019
+TLS SNI support enabled
+configure arguments: --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_gzip_static_module --with-http_sub_module --with-stream --with-stream_ssl_module --with-openssl=/usr/local/src/openssl-1.1.1b --with-openssl-opt=enable-weak-ssl-ciphers --add-module=/usr/local/src/ngx_http_proxy_connect_module-0.0.2/
+```
+
+修改配置文件：
+
+```bash
+# 修改 Nginx 配置文件，开启代理
+server {
+    listen                         8089;
+
+    # dns resolver used by forward proxying
+    resolver                       8.8.8.8;
+
+    # forward proxy for CONNECT request
+    proxy_connect;
+    proxy_connect_allow            443 563;
+    proxy_connect_connect_timeout  10s;
+    proxy_connect_read_timeout     10s;
+    proxy_connect_send_timeout     10s;
+
+    # forward proxy for non-CONNECT request
+    location / {
+        proxy_pass $scheme://$host$request_uri;
+        proxy_set_header Host $host;
+    }
+    access_log  /home/wwwlogs/proxy.log;
+}
+```
+
+测试：
+
+```bash
+[vagrant@localhost ~]$ curl -I --proxy 192.168.33.10:8089 https://www.baidu.com
+
+# 200 OK，成功了。
+HTTP/1.1 200 Connection Established
+Proxy-agent: nginx
+
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: private, no-cache, no-store, proxy-revalidate, no-transform
+Connection: keep-alive
+Content-Length: 277
+Content-Type: text/html
+Date: Thu, 22 Apr 2021 07:27:24 GMT
+Etag: "575e1f60-115"
+Last-Modified: Mon, 13 Jun 2016 02:50:08 GMT
+Pragma: no-cache
+Server: bfe/1.0.8.18
+```
+
 ## 反向代理
 
 ```bash
